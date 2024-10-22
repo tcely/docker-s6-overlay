@@ -68,6 +68,7 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v4
         with:
+          targets: s6-overlay
           push: ${{ github.event_name != 'pull_request' }}
           files: |
             ./docker-bake.hcl
@@ -77,5 +78,124 @@ jobs:
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
 
-      - name: Docker Metadata Summary
-        uses: dockerbakery/docker-metadata-summary@v1
+  minimal:
+    needs: generate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker metadata
+        id: docker-meta
+        uses: docker/metadata-action@v5
+        env:
+          S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
+        with:
+          # images: |
+          #   docker.io/${{ github.actor }}/chrons6-overlay-distributiony
+          #   ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          images: ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          flavor: latest=false
+          tags: type=raw,value=${{ matrix.releases.tag_name }}+minimal
+
+      - name: Generate GitHub metadata
+        id: github-meta
+        uses: dockerbakery/github-metadata-action@v2
+
+      - name: Build and push
+        uses: docker/bake-action@v4
+        with:
+          targets: s6-overlay-minimal
+          push: ${{ github.event_name != 'pull_request' }}
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.docker-meta.outputs.bake-file }}
+            ${{ steps.github-meta.outputs.bake-file }}
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+  syslogd:
+    needs: generate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker metadata
+        id: docker-meta
+        uses: docker/metadata-action@v5
+        env:
+          S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
+        with:
+          # images: |
+          #   docker.io/${{ github.actor }}/chrons6-overlay-distributiony
+          #   ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          images: ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          flavor: latest=false
+          tags: type=raw,value=${{ matrix.releases.tag_name }}+syslogd
+
+      - name: Generate GitHub metadata
+        id: github-meta
+        uses: dockerbakery/github-metadata-action@v2
+
+      - name: Build and push
+        uses: docker/bake-action@v4
+        with:
+          targets: s6-overlay-syslogd
+          push: ${{ github.event_name != 'pull_request' }}
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.docker-meta.outputs.bake-file }}
+            ${{ steps.github-meta.outputs.bake-file }}
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
