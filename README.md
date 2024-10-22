@@ -25,4 +25,8 @@ And for `syslogd` version, use `ghcr.io/socheatsok78/s6-overlay-distribution:v3.
 COPY --link --from=ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-syslogd / /
 ```
 
-> WIP
+## Versions
+
+The container images are tagged with the version of s6-overlay starting from `v3.2.0.0`. Any future versions will be tagged accordingly.
+
+Please check the [releases](https://github.com/just-containers/s6-overlay/releases) page for the latest version of s6-overlay.
