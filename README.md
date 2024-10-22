@@ -13,17 +13,36 @@ ENTRYPOINT [ "/init" ]
 CMD [ "/bin/sh" ]
 ```
 
-For `minimal` version, use `ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-minimal`
+This distribution will includes all default binaries and symlinks.
+- `s6-overlay-noarch.tar.xz`
+- `s6-overlay-${S6_ARCH}.tar.xz`
+- `s6-overlay-symlinks-noarch.tar.xz`
+- `s6-overlay-symlinks-arch.tar.xz`
+
+
+For `minimal` version, use `-minimal` suffix:
 
 ```Dockerfile
 COPY --link --from=ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-minimal / /
 ```
 
-And for `syslogd` version, use `ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-syslogd`
+This distribution will includes only necessary binaries.
+- `s6-overlay-noarch.tar.xz`
+- `s6-overlay-${S6_ARCH}.tar.xz`
+
+And for `syslogd` version, use `-syslogd` suffix:
 
 ```Dockerfile
 COPY --link --from=ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-syslogd / /
 ```
+
+If you are running daemons that cannot log to stderr to take advantage of the s6 logging infrastructure, but hardcode the use of the old `syslog()` mechanism, you can extract this tarball, and your container will run a lightweight emulation of a syslogd daemon, so your syslog logs will be caught and stored to disk.
+
+- `s6-overlay-noarch.tar.xz`
+- `s6-overlay-${S6_ARCH}.tar.xz`
+- `s6-overlay-symlinks-noarch.tar.xz`
+- `s6-overlay-symlinks-arch.tar.xz`
+- `syslogd-overlay-noarch.tar.xz`
 
 ## Versions
 
