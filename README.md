@@ -2,7 +2,31 @@
 
 A container image distribution of [s6-overlay](https://github.com/just-containers/s6-overlay), using [socheatsok78/s6-overlay-installer](https://github.com/socheatsok78/s6-overlay-installer) to create the scratch images all supported architectures.
 
-[Source](https://github.com/socheatsok78/s6-overlay-distribution) | [Docker Hub](https://hub.docker.com/r/socheatsok78/s6-overlay-distribution)
+[Source] | [Docker Hub] | [GitHub Container Registry]
+
+## Image
+
+| Registry                    | Image                                        |
+| --------------------------- | -------------------------------------------- |
+| [Docker Hub]                | socheatsok78/s6-overlay-distribution         |
+| [GitHub Container Registry] | ghcr.io/socheatsok78/s6-overlay-distribution |
+
+Following platforms for this image are available:
+
+```bash
+$ docker run --rm mplatform/mquery socheatsok78/s6-overlay-distribution:v3.2.0.0
+
+# Image: socheatsok78/s6-overlay-distribution:v3.2.0.0
+#  * Manifest List: Yes (Image type: application/vnd.oci.image.index.v1+json)
+#  * Supported platforms:
+#    - linux/amd64
+#    - linux/arm64
+#    - linux/riscv64
+#    - linux/s390x
+#    - linux/386
+#    - linux/arm/v7
+#    - linux/arm/v6
+```
 
 ## Usage
 
@@ -51,3 +75,7 @@ If you are running daemons that cannot log to stderr to take advantage of the s6
 The container images are tagged with the version of s6-overlay starting from `v3.2.0.0`. Any future versions will be tagged accordingly.
 
 Please check the [releases](https://github.com/just-containers/s6-overlay/releases) page for the latest version of s6-overlay.
+
+[Source]: https://github.com/socheatsok78/s6-overlay-distribution
+[Docker Hub]: https://hub.docker.com/r/socheatsok78/s6-overlay-distribution
+[GitHub Container Registry]: https://github.com/socheatsok78/s6-overlay-distribution/pkgs/container/s6-overlay-distribution
