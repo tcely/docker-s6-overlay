@@ -44,7 +44,7 @@ If you are running daemons that cannot log to stderr to take advantage of the s6
 - `s6-overlay-symlinks-arch.tar.xz`
 - `syslogd-overlay-noarch.tar.xz`
 
-## Versions
+## Versioning
 
 The container images are tagged with the version of s6-overlay starting from `v3.2.0.0`. Any future versions will be tagged accordingly.
 
