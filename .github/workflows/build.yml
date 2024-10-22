@@ -100,11 +100,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io
         uses: docker/login-action@v3
@@ -119,10 +119,9 @@ jobs:
         env:
           S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
         with:
-          # images: |
-          #   docker.io/${{ github.actor }}/chrons6-overlay-distributiony
-          #   ghcr.io/${{ github.actor }}/s6-overlay-distribution
-          images: ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          images: |
+            docker.io/${{ github.actor }}/s6-overlay-distribution
+            ghcr.io/${{ github.actor }}/s6-overlay-distribution
           flavor: latest=false
           tags: type=raw,value=${{ matrix.releases.tag_name }}+minimal
 
@@ -161,11 +160,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io
         uses: docker/login-action@v3
@@ -180,10 +179,9 @@ jobs:
         env:
           S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
         with:
-          # images: |
-          #   docker.io/${{ github.actor }}/chrons6-overlay-distributiony
-          #   ghcr.io/${{ github.actor }}/s6-overlay-distribution
-          images: ghcr.io/${{ github.actor }}/s6-overlay-distribution
+          images: |
+            docker.io/${{ github.actor }}/s6-overlay-distribution
+            ghcr.io/${{ github.actor }}/s6-overlay-distribution
           flavor: latest=false
           tags: type=raw,value=${{ matrix.releases.tag_name }}+syslogd
 
