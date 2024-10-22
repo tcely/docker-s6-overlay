@@ -20,7 +20,7 @@ This distribution will includes all default binaries and symlinks.
 - `s6-overlay-symlinks-arch.tar.xz`
 
 
-For `minimal` version, use `-minimal` suffix:
+### For `minimal` version, use `-minimal` suffix:
 
 ```Dockerfile
 COPY --link --from=ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-minimal / /
@@ -30,7 +30,7 @@ This distribution will includes only necessary binaries.
 - `s6-overlay-noarch.tar.xz`
 - `s6-overlay-${S6_ARCH}.tar.xz`
 
-And for `syslogd` version, use `-syslogd` suffix:
+### And for `syslogd` version, use `-syslogd` suffix:
 
 ```Dockerfile
 COPY --link --from=ghcr.io/socheatsok78/s6-overlay-distribution:v3.2.0.0-syslogd / /
