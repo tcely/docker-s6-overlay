@@ -30,11 +30,14 @@ $ docker run --rm mplatform/mquery socheatsok78/s6-overlay-distribution:v3.2.0.0
 
 ## Usage
 
-The installer will automatically detect the architecture using `uname -m` of the container and download the appropriate archive.
+Here a simple example of how to use this image:
 
 ```Dockerfile
+ARG S6_OVERLAY_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
+
 FROM alpine:latest
-COPY --link --from=socheatsok78/s6-overlay-distribution:v3.2.0.0 / /
+COPY --link --from=s6-overlay-distribution / /
 ENTRYPOINT [ "/init" ]
 CMD [ "/bin/sh" ]
 ```
