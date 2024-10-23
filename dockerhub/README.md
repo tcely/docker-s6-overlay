@@ -52,7 +52,7 @@ This distribution will includes all default binaries and symlinks.
 ### For `minimal` version, use `-minimal` suffix:
 
 ```Dockerfile
-COPY --link --from=socheatsok78/s6-overlay-distribution:v3.2.0.0-minimal / /
+ARG S6_OVERLAY_VERSION=v3.2.0.0-minimal
 ```
 
 This distribution will includes only necessary binaries.
@@ -62,7 +62,7 @@ This distribution will includes only necessary binaries.
 ### And for `syslogd` version, use `-syslogd` suffix:
 
 ```Dockerfile
-COPY --link --from=socheatsok78/s6-overlay-distribution:v3.2.0.0-syslogd / /
+ARG S6_OVERLAY_VERSION=v3.2.0.0-syslogd
 ```
 
 If you are running daemons that cannot log to stderr to take advantage of the s6 logging infrastructure, but hardcode the use of the old `syslog()` mechanism, you can extract this tarball, and your container will run a lightweight emulation of a syslogd daemon, so your syslog logs will be caught and stored to disk.
