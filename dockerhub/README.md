@@ -1,6 +1,6 @@
 # About
 
-A container image distribution of [s6-overlay](https://github.com/just-containers/s6-overlay), using [socheatsok78/s6-overlay-installer](https://github.com/socheatsok78/s6-overlay-installer) to create the scratch images all supported architectures.
+A container image distribution of [s6-overlay](https://github.com/just-containers/s6-overlay) using an explicitly empty image, especially for building images `FROM scratch`.
 
 [Source] | [Docker Hub] | [GitHub Container Registry]
 
