@@ -71,10 +71,6 @@ COPY --link --from=s6-overlay / /
 +COPY --link --from=s6-overlay-syslogd / /
 ```
 
-If you are running daemons that cannot log to stderr to take advantage of the s6 logging infrastructure, but hardcode the use of the old `syslog()` mechanism, you can extract this tarball, and your container will run a lightweight emulation of a syslogd daemon, so your syslog logs will be caught and stored to disk.
-
-- `syslogd-overlay-noarch.tar.xz`
-
 ## Versioning
 
 The container images are tagged with the version of s6-overlay starting from `v3.2.0.0`. Any future versions will be tagged accordingly.
