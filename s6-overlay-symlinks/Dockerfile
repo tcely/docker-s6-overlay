@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=latest
 ARG S6_OVERLAY_VERSION=v3.2.0.2
 
-FROM alpine:${ALPINE_VERSION} AS s6-overlay
+FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS s6-overlay
 RUN apk add --no-cache curl
 ARG S6_OVERLAY_VERSION
 RUN <<EOF
