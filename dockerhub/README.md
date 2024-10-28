@@ -47,32 +47,28 @@ This distribution will includes all default binaries and symlinks.
 - `s6-overlay-${S6_ARCH}.tar.xz`
 
 
-### For `symlinks` version, use `-symlinks` suffix:
+If you need to include symlinks to the `s6-overlay` binaries, you can add the following to your `Dockerfile`:
 
-```Dockerfile
+```diff
 ARG S6_OVERLAY_VERSION=v3.2.0.0
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
++FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
-COPY --link --from=s6-overlay-symlinks / /
++COPY --link --from=s6-overlay-symlinks / /
 ```
 
-This distribution will includes only necessary binaries.
-- `s6-overlay-symlinks-noarch.tar.xz`
-- `s6-overlay-symlinks-arch.tar.xz`
+Also available for `syslogd` service, use `-syslogd` suffix:
 
-### And for `syslogd` version, use `-syslogd` suffix:
-
-```Dockerfile
+```diff
 ARG S6_OVERLAY_VERSION=v3.2.0.0
 FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
++FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
-COPY --link --from=s6-overlay-syslogd / /
++COPY --link --from=s6-overlay-syslogd / /
 ```
 
 If you are running daemons that cannot log to stderr to take advantage of the s6 logging infrastructure, but hardcode the use of the old `syslog()` mechanism, you can extract this tarball, and your container will run a lightweight emulation of a syslogd daemon, so your syslog logs will be caught and stored to disk.
