@@ -34,10 +34,10 @@ Here a simple example of how to use this image:
 
 ```Dockerfile
 ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
 
 FROM alpine:latest
-COPY --link --from=s6-overlay-distribution / /
+COPY --link --from=s6-overlay / /
 ENTRYPOINT [ "/init" ]
 CMD [ "/bin/sh" ]
 ```
@@ -50,11 +50,13 @@ This distribution will includes all default binaries and symlinks.
 ### For `symlinks` version, use `-symlinks` suffix:
 
 ```Dockerfile
-ARG S6_OVERLAY_VERSION=v3.2.0.0-symlinks
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
+ARG S6_OVERLAY_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
 
 FROM alpine:latest
-COPY --link --from=s6-overlay-distribution / /
+COPY --link --from=s6-overlay / /
+COPY --link --from=s6-overlay-symlinks / /
 ```
 
 This distribution will includes only necessary binaries.
@@ -64,11 +66,13 @@ This distribution will includes only necessary binaries.
 ### And for `syslogd` version, use `-syslogd` suffix:
 
 ```Dockerfile
-ARG S6_OVERLAY_VERSION=v3.2.0.0-syslogd
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay-distribution
+ARG S6_OVERLAY_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
 
 FROM alpine:latest
-COPY --link --from=s6-overlay-distribution / /
+COPY --link --from=s6-overlay / /
+COPY --link --from=s6-overlay-syslogd / /
 ```
 
 If you are running daemons that cannot log to stderr to take advantage of the s6 logging infrastructure, but hardcode the use of the old `syslog()` mechanism, you can extract this tarball, and your container will run a lightweight emulation of a syslogd daemon, so your syslog logs will be caught and stored to disk.
