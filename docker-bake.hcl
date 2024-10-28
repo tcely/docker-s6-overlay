@@ -8,7 +8,7 @@ target "github-metadata-action" {}
 group "default" {
     targets = [
         "s6-overlay",
-        "s6-overlay-minimal",
+        "s6-overlay-symlinks",
         "s6-overlay-syslogd",
     ]
 }
@@ -18,10 +18,10 @@ target "s6-overlay" {
         "docker-metadata-action",
         "github-metadata-action",
     ]
+    context = "s6-overlay"
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
-        S6_OVERLAY_INSTALLER = "main/s6-overlay-installer.sh"
     }
     platforms = [
         "linux/amd64",
@@ -34,15 +34,13 @@ target "s6-overlay" {
     ]
 }
 
-target "s6-overlay-minimal" {
+target "s6-overlay-symlinks" {
     inherits = [
         "docker-metadata-action",
         "github-metadata-action",
         "s6-overlay"
     ]
-    args = {
-        S6_OVERLAY_INSTALLER = "main/s6-overlay-installer-minimal.sh"
-    }
+    context = "s6-overlay-symlinks"
 }
 
 target "s6-overlay-syslogd" {
@@ -51,16 +49,18 @@ target "s6-overlay-syslogd" {
         "github-metadata-action",
         "s6-overlay"
     ]
-    args = {
-        S6_OVERLAY_INSTALLER = "main/s6-overlay-installer-syslogd.sh"
-    }
+    context = "s6-overlay-syslogd"
 }
 
 target "dev" {
+    inherits = [
+        "docker-metadata-action",
+        "github-metadata-action",
+    ]
+    context = "s6-overlay"
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
-        S6_OVERLAY_INSTALLER = "main/s6-overlay-installer.sh"
     }
     tags = [
         "socheatsok78/s6-overlay-distribution:dev"

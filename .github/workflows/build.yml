@@ -89,7 +89,7 @@ jobs:
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
 
-  minimal:
+  symlinks:
     needs: generate
     runs-on: ubuntu-latest
     permissions:
@@ -130,7 +130,7 @@ jobs:
             docker.io/${{ github.actor }}/s6-overlay-distribution
             ghcr.io/${{ github.actor }}/s6-overlay-distribution
           flavor: latest=false
-          tags: type=raw,value=${{ matrix.releases.tag_name }}+minimal
+          tags: type=raw,value=${{ matrix.releases.tag_name }}-symlinks
 
       - name: Generate GitHub metadata
         id: github-meta
@@ -139,7 +139,7 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v4
         with:
-          targets: s6-overlay-minimal
+          targets: s6-overlay-symlinks
           push: ${{ github.event_name != 'pull_request' }}
           files: |
             ./docker-bake.hcl
@@ -190,7 +190,7 @@ jobs:
             docker.io/${{ github.actor }}/s6-overlay-distribution
             ghcr.io/${{ github.actor }}/s6-overlay-distribution
           flavor: latest=false
-          tags: type=raw,value=${{ matrix.releases.tag_name }}+syslogd
+          tags: type=raw,value=${{ matrix.releases.tag_name }}-syslogd
 
       - name: Generate GitHub metadata
         id: github-meta
