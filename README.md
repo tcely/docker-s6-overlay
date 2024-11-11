@@ -80,3 +80,7 @@ Please check the [releases](https://github.com/just-containers/s6-overlay/releas
 [Source]: https://github.com/socheatsok78/s6-overlay-distribution
 [Docker Hub]: https://hub.docker.com/r/socheatsok78/s6-overlay-distribution
 [GitHub Container Registry]: https://github.com/socheatsok78/s6-overlay-distribution/pkgs/container/s6-overlay-distribution
+
+# License
+
+Licensed under the [MIT License](./LICENSE).
