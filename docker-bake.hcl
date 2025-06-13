@@ -111,7 +111,7 @@ target "local-s6-overlay-syslogd" {
 
 # Download s6-overlay tarballs for local testing.
 target "tarballs" {
-  output = ["./tarballs"]
-  platforms = ["local"]
-  target = "tarballs"
+    output = ["./tarballs"]
+    platforms = ["local"]
+    target = "tarballs"
 }

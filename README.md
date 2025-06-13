@@ -6,8 +6,8 @@ A lightweight container image distribution of [s6-overlay](https://github.com/ju
 
 ## Image
 
-| Registry                    | Image                                        |
-| --------------------------- | -------------------------------------------- |
+| Registry                    | Image                           |
+| --------------------------- | ------------------------------- |
 | [Docker Hub]                | socheatsok78/s6-overlay         |
 | [GitHub Container Registry] | ghcr.io/socheatsok78/s6-overlay |
 

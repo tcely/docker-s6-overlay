@@ -1,13 +1,13 @@
 # About
 
-A container image distribution of [s6-overlay](https://github.com/just-containers/s6-overlay) using an explicitly empty image, especially for building images `FROM scratch`.
+A lightweight container image distribution of [s6-overlay](https://github.com/just-containers/s6-overlay) using an explicitly empty image (`FROM scratch`).
 
 [Source] | [Docker Hub] | [GitHub Container Registry]
 
 ## Image
 
-| Registry                    | Image                                        |
-| --------------------------- | -------------------------------------------- |
+| Registry                    | Image                           |
+| --------------------------- | ------------------------------- |
 | [Docker Hub]                | socheatsok78/s6-overlay         |
 | [GitHub Container Registry] | ghcr.io/socheatsok78/s6-overlay |
 
