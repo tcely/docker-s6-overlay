@@ -57,8 +57,6 @@ target "dev" {
         "docker-metadata-action",
         "github-metadata-action",
     ]
-    #target = "s6-overlay"
-    target = "test"
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
