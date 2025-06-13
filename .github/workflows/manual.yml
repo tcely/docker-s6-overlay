@@ -71,7 +71,7 @@ jobs:
             *.cache-to=type=gha,mode=max
 
   symlinks:
-    name: symlinks (${{ inputs.tag_name }}
+    name: symlinks (${{ inputs.tag_name }})
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -126,7 +126,7 @@ jobs:
             *.cache-to=type=gha,mode=max
 
   syslogd:
-    name: syslogd (${{ inputs.tag_name }}
+    name: syslogd (${{ inputs.tag_name }})
     runs-on: ubuntu-latest
     permissions:
       contents: read
