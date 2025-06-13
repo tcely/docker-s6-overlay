@@ -18,7 +18,7 @@ target "s6-overlay" {
         "docker-metadata-action",
         "github-metadata-action",
     ]
-    context = "s6-overlay"
+    target = "s6-overlay"
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
@@ -40,7 +40,7 @@ target "s6-overlay-symlinks" {
         "github-metadata-action",
         "s6-overlay"
     ]
-    context = "s6-overlay-symlinks"
+    target = "s6-overlay-symlinks"
 }
 
 target "s6-overlay-syslogd" {
@@ -49,7 +49,7 @@ target "s6-overlay-syslogd" {
         "github-metadata-action",
         "s6-overlay"
     ]
-    context = "s6-overlay-syslogd"
+    target = "s6-overlay-syslogd"
 }
 
 target "dev" {
@@ -57,7 +57,6 @@ target "dev" {
         "docker-metadata-action",
         "github-metadata-action",
     ]
-    context = "s6-overlay"
     args = {
         ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
