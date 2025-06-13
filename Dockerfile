@@ -3,17 +3,32 @@ ARG S6_VERSION=v3.2.0.0
 # Tools for building the s6-overlay images
 FROM alpine:latest AS internal
 RUN apk add --no-cache curl
+ARG TARGETARCH
+RUN <<EOT
+    {
+        case "${TARGETARCH}" in
+            (amd64) echo 'x86_64' ;;
+            (arm64) echo 'aarch64' ;;
+            (riscv64) echo 'riscv64' ;;
+            (s390x) echo 's390x' ;;
+            (386) echo 'i486' ;;
+            (arm/v7) echo 'armhf' ;;
+            (arm/v6) echo 'arm' ;;
+            (*) echo 1>&2 'Unsupported architecture!' ; exit 1 ;;
+        esac
+    } >| /S6_ARCH
+    if [[ "$(uname -m)" == "armv7l" ]]; then
+        echo 'arm' >| /S6_ARCH
+    fi
+EOT
 
 
 # Overlay for s6-overlay-noarch.tar.xz & s6-overlay-${arch}.tar.xz
 FROM internal AS s6-overlay-rootfs
 ARG S6_VERSION
-RUN <<EOF
+RUN <<EOT
     set -e
-    S6_ARCH=$(uname -m)
-    if [[ "${S6_ARCH}" == "armv7l" ]]; then
-        S6_ARCH=arm
-    fi
+    S6_ARCH=$(cat /S6_ARCH)
     mkdir /s6-overlay-rootfs
     set -x
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz -o /tmp/s6-overlay-noarch.tar.xz
@@ -23,7 +38,7 @@ RUN <<EOF
     cd   /tmp && sha256sum -c *.sha256
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-noarch.tar.xz
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz
-EOF
+EOT
 FROM scratch AS s6-overlay
 COPY --from=s6-overlay-rootfs /s6-overlay-rootfs /
 
