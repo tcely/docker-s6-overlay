@@ -65,8 +65,8 @@ jobs:
           S6_VERSION: ${{ inputs.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay
             ghcr.io/${{ github.actor }}/s6-overlay
+            ${{ steps.has_secret.outputs.DOCKERHUB && format('docker.io/{0}/s6-overlay', github.actor) }}
           flavor: latest=false
           tags: type=raw,value=${{ inputs.tag_name }}
 
@@ -137,8 +137,8 @@ jobs:
           S6_VERSION: ${{ inputs.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay
             ghcr.io/${{ github.actor }}/s6-overlay
+            ${{ steps.has_secret.outputs.DOCKERHUB && format('docker.io/{0}/s6-overlay', github.actor) }}
           flavor: latest=false
           tags: type=raw,value=${{ inputs.tag_name }}-symlinks
 
@@ -209,8 +209,8 @@ jobs:
           S6_VERSION: ${{ inputs.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay
             ghcr.io/${{ github.actor }}/s6-overlay
+            ${{ steps.has_secret.outputs.DOCKERHUB && format('docker.io/{0}/s6-overlay', github.actor) }}
           flavor: latest=false
           tags: type=raw,value=${{ inputs.tag_name }}-syslogd
 
