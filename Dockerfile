@@ -17,8 +17,11 @@ RUN <<EOF
     mkdir /s6-overlay-rootfs
     set -x
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz -o /tmp/s6-overlay-noarch.tar.xz
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-noarch.tar.xz
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256 -o /tmp/s6-overlay-noarch.tar.xz.sha256
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz -o /tmp/s6-overlay-${S6_ARCH}.tar.xz
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz.sha256 -o /tmp/s6-overlay-${S6_ARCH}.tar.xz.sha256
+    cd   /tmp && sha256sum -c *.sha256
+    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-noarch.tar.xz
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz
 EOF
 FROM scratch AS s6-overlay
@@ -32,10 +35,13 @@ RUN <<EOF
     set -e
     mkdir /s6-overlay-rootfs
     set -x
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz -o /tmp/s6-overlay-symlinks-arch.tar.xz
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz -o /tmp/s6-overlay-symlinks-noarch.tar.xz
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 -o /tmp/s6-overlay-symlinks-noarch.tar.xz.sha256
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz -o /tmp/s6-overlay-symlinks-arch.tar.xz
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256 -o /tmp/s6-overlay-symlinks-arch.tar.xz.sha256
+    cd   /tmp && sha256sum -c *.sha256
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz
+    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
 EOF
 FROM scratch AS s6-overlay-symlinks
 COPY --from=s6-overlay-rootfs-symlinks /s6-overlay-rootfs /
@@ -49,6 +55,8 @@ RUN <<EOF
     mkdir /s6-overlay-rootfs
     set -x
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz -o /tmp/syslogd-overlay-noarch.tar.xz
+    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 -o /tmp/syslogd-overlay-noarch.tar.xz.sha256
+    cd.  /tmp && sha256sum -c *.sha256
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/syslogd-overlay-noarch.tar.xz
 EOF
 FROM scratch AS s6-overlay-syslogd
