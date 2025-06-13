@@ -101,3 +101,10 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 /s6-overlay-symlinks-noarch.tar.xz.sha256
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-x86_64.tar.xz.sha256 /s6-overlay-x86_64.tar.xz.sha256
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 /syslogd-overlay-noarch.tar.xz.sha256
+
+FROM alpine:latest AS checksums
+RUN --mount=type=bind,source=./tarballs,target=/tmp/tarballs <<EOT
+    set -e
+    cd /tmp/tarballs
+    sha256sum -c *.sha256
+EOT
