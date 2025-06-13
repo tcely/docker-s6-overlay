@@ -1,4 +1,4 @@
-ARG S6_OVERLAY_VERSION=v3.2.0.2
+ARG S6_OVERLAY_VERSION=v3.2.0.0
 
 # Tools for building the s6-overlay images
 FROM alpine:latest AS internal
