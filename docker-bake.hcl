@@ -108,3 +108,12 @@ target "local-s6-overlay-syslogd" {
     target = "s6-overlay-syslogd"
     tags = [ "socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd"]
 }
+
+
+
+# Download s6-overlay tarballs for local testing.
+target "tarballs" {
+  output = ["./tarballs"]
+  platforms = ["local"]
+  target = "tarballs"
+}
