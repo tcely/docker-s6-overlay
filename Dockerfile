@@ -4,6 +4,8 @@ ARG GH_DOWNLOAD='https://github.com/just-containers/s6-overlay/releases/download
 # Tools for building the s6-overlay images
 FROM alpine:latest AS internal
 RUN apk add --no-cache curl cmd:sha256sum
+ARG TARGETARCH
+RUN echo "${TARGETARCH}" ; uname -a ; uname -m
 
 
 # Overlay for s6-overlay-noarch.tar.xz & s6-overlay-${arch}.tar.xz
