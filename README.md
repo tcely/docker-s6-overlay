@@ -47,7 +47,7 @@ This distribution will includes all default binaries and symlinks.
 - `s6-overlay-${S6_ARCH}.tar.xz`
 
 
-If you need to include symlinks to the `s6-overlay` binaries, you can add the following to your `Dockerfile`:
+If you need to include `symlinks` to the `s6-overlay` binaries, you can add the following to your `Dockerfile`:
 
 ```diff
 ARG S6_OVERLAY_VERSION=v3.2.0.0
