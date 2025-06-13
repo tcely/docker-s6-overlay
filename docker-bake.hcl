@@ -50,21 +50,9 @@ target "s6-overlay-syslogd" {
     target = "s6-overlay-syslogd"
 }
 
-target "dev" {
-    inherits = [
-        "docker-metadata-action",
-        "github-metadata-action",
-    ]
-    args = {
-        S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
-    }
-    tags = [
-        "socheatsok78/s6-overlay-distribution:dev"
-    ]
-}
-
 # The "release" group is used to build locally in the event that CI/CD is not available.
 # Or in most cases, it got rate-limited by Docker Hub.
+# e.g: S6_OVERLAY_VERSION=v3.2.0.0 docker buildx bake release --push
 group "release" {
     targets = [
         "release-s6-overlay",
@@ -72,7 +60,6 @@ group "release" {
         "release-s6-overlay-syslogd",
     ]
 }
-
 target "release-s6-overlay" {
     inherits = [ "s6-overlay" ]
     tags = [ 
@@ -93,4 +80,31 @@ target "release-s6-overlay-syslogd" {
         "docker.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd",
         "ghcr.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd",
     ]
+}
+
+# The "local" group is used to build for host platforms, usually for testing purposes.
+# e.g: S6_OVERLAY_VERSION=v3.2.0.0 docker buildx bake local --load
+group "local" {
+    targets = [
+        "local-s6-overlay",
+        "local-s6-overlay-symlinks",
+        "local-s6-overlay-syslogd",
+    ]
+}
+target "local-s6-overlay" {
+    target = "s6-overlay"
+    args = {
+        S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
+    }
+    tags = [ "socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}"]
+}
+target "local-s6-overlay-symlinks" {
+    inherits = [ "local-s6-overlay" ]
+    target = "s6-overlay-symlinks"
+    tags = [ "socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-symlinks"]
+}
+target "local-s6-overlay-syslogd" {
+    inherits = [ "local-s6-overlay" ]
+    target = "s6-overlay-syslogd"
+    tags = [ "socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd"]
 }
