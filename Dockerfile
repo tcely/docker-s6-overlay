@@ -56,7 +56,7 @@ RUN <<EOF
     set -x
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz -o /tmp/syslogd-overlay-noarch.tar.xz
     curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 -o /tmp/syslogd-overlay-noarch.tar.xz.sha256
-    cd.  /tmp && sha256sum -c *.sha256
+    cd   /tmp && sha256sum -c *.sha256
     tar  -C /s6-overlay-rootfs -Jxpf /tmp/syslogd-overlay-noarch.tar.xz
 EOF
 FROM scratch AS s6-overlay-syslogd
