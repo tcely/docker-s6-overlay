@@ -28,15 +28,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Check for registry token secrets
+        id: 'has_secret'
+        env:
+          DOCKERHUB: ${{ secrets.DOCKERHUB_TOKEN }}
+          GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          for var in DOCKERHUB GITHUB
+          do
+            if ! declare -p "${var}" | grep -Fe "${var}"'=""' > /dev/null
+            then
+              echo "${var}=true" >> "${GITHUB_OUTPUT}"
+            fi
+          done
+
       - name: Login to Docker Hub
-        if: ${{ inputs.push && secrets.DOCKERHUB_TOKEN }}
+        if: ${{ inputs.push && steps.has_secret.outputs.DOCKERHUB }}
         uses: docker/login-action@v3
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io
-        if: ${{ inputs.push }}
+        if: ${{ inputs.push && steps.has_secret.outputs.GITHUB }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -85,15 +100,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Check for registry token secrets
+        id: 'has_secret'
+        env:
+          DOCKERHUB: ${{ secrets.DOCKERHUB_TOKEN }}
+          GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          for var in DOCKERHUB GITHUB
+          do
+            if ! declare -p "${var}" | grep -Fe "${var}"'=""' > /dev/null
+            then
+              echo "${var}=true" >> "${GITHUB_OUTPUT}"
+            fi
+          done
+
       - name: Login to Docker Hub
-        if: ${{ inputs.push && secrets.DOCKERHUB_TOKEN }}
+        if: ${{ inputs.push && steps.has_secret.outputs.DOCKERHUB }}
         uses: docker/login-action@v3
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io
-        if: ${{ inputs.push }}
+        if: ${{ inputs.push && steps.has_secret.outputs.GITHUB }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -142,15 +172,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Check for registry token secrets
+        id: 'has_secret'
+        env:
+          DOCKERHUB: ${{ secrets.DOCKERHUB_TOKEN }}
+          GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          for var in DOCKERHUB GITHUB
+          do
+            if ! declare -p "${var}" | grep -Fe "${var}"'=""' > /dev/null
+            then
+              echo "${var}=true" >> "${GITHUB_OUTPUT}"
+            fi
+          done
+
       - name: Login to Docker Hub
-        if: ${{ inputs.push && secrets.DOCKERHUB_TOKEN }}
+        if: ${{ inputs.push && steps.has_secret.outputs.DOCKERHUB }}
         uses: docker/login-action@v3
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to ghcr.io
-        if: ${{ inputs.push }}
+        if: ${{ inputs.push && steps.has_secret.outputs.GITHUB }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
