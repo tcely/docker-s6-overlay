@@ -96,43 +96,42 @@ FROM s6-overlay
 
 # s6-overlay tarballs
 FROM scratch AS tarballs
-# TODO: use this variable in all the URLs below
 ARG GH_DOWNLOAD
 ARG S6_VERSION
 # tarballs
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.xz /s6-overlay-aarch64.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-arm.tar.xz /s6-overlay-arm.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-armhf.tar.xz /s6-overlay-armhf.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i486.tar.xz /s6-overlay-i486.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i686.tar.xz /s6-overlay-i686.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz /s6-overlay-noarch.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64.tar.xz /s6-overlay-powerpc64.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64le.tar.xz /s6-overlay-powerpc64le.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-riscv64.tar.xz /s6-overlay-riscv64.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-s390x.tar.xz /s6-overlay-s390x.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz /s6-overlay-symlinks-arch.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz /s6-overlay-symlinks-noarch.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-x86_64.tar.xz /s6-overlay-x86_64.tar.xz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz /syslogd-overlay-noarch.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-aarch64.tar.xz" /s6-overlay-aarch64.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-arm.tar.xz" /s6-overlay-arm.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-armhf.tar.xz" /s6-overlay-armhf.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-i486.tar.xz" /s6-overlay-i486.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-i686.tar.xz" /s6-overlay-i686.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-noarch.tar.xz" /s6-overlay-noarch.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-powerpc64.tar.xz" /s6-overlay-powerpc64.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-powerpc64le.tar.xz" /s6-overlay-powerpc64le.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-riscv64.tar.xz" /s6-overlay-riscv64.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-s390x.tar.xz" /s6-overlay-s390x.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz" /s6-overlay-symlinks-arch.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz" /s6-overlay-symlinks-noarch.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-x86_64.tar.xz" /s6-overlay-x86_64.tar.xz
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/syslogd-overlay-noarch.tar.xz" /syslogd-overlay-noarch.tar.xz
 # checksums
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.xz.sha256 /s6-overlay-aarch64.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-arm.tar.xz.sha256 /s6-overlay-arm.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-armhf.tar.xz.sha256 /s6-overlay-armhf.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i486.tar.xz.sha256 /s6-overlay-i486.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i686.tar.xz.sha256 /s6-overlay-i686.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256 /s6-overlay-noarch.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64.tar.xz.sha256 /s6-overlay-powerpc64.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64le.tar.xz.sha256 /s6-overlay-powerpc64le.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-riscv64.tar.xz.sha256 /s6-overlay-riscv64.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-s390x.tar.xz.sha256 /s6-overlay-s390x.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256 /s6-overlay-symlinks-arch.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 /s6-overlay-symlinks-noarch.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-x86_64.tar.xz.sha256 /s6-overlay-x86_64.tar.xz.sha256
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 /syslogd-overlay-noarch.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-aarch64.tar.xz.sha256" /s6-overlay-aarch64.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-arm.tar.xz.sha256" /s6-overlay-arm.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-armhf.tar.xz.sha256" /s6-overlay-armhf.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-i486.tar.xz.sha256" /s6-overlay-i486.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-i686.tar.xz.sha256" /s6-overlay-i686.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256" /s6-overlay-noarch.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-powerpc64.tar.xz.sha256" /s6-overlay-powerpc64.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-powerpc64le.tar.xz.sha256" /s6-overlay-powerpc64le.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-riscv64.tar.xz.sha256" /s6-overlay-riscv64.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-s390x.tar.xz.sha256" /s6-overlay-s390x.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256" /s6-overlay-symlinks-arch.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256" /s6-overlay-symlinks-noarch.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-x86_64.tar.xz.sha256" /s6-overlay-x86_64.tar.xz.sha256
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256" /syslogd-overlay-noarch.tar.xz.sha256
 
-FROM alpine:latest AS checksums
+FROM internal AS checksums
 RUN --mount=type=bind,source=./tarballs,target=/tmp/tarballs <<EOT
     set -e
     cd /tmp/tarballs
-    sha256sum -c *.sha256
+    sha256sum --check --warn --strict *.sha256
 EOT
