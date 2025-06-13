@@ -64,8 +64,8 @@ jobs:
           S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay-distribution
-            ghcr.io/${{ github.actor }}/s6-overlay-distribution
+            docker.io/${{ github.actor }}/s6-overlay
+            ghcr.io/${{ github.actor }}/s6-overlay
           flavor: latest=false
           tags: type=raw,value=${{ matrix.releases.tag_name }}
 
@@ -121,8 +121,8 @@ jobs:
           S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay-distribution
-            ghcr.io/${{ github.actor }}/s6-overlay-distribution
+            docker.io/${{ github.actor }}/s6-overlay
+            ghcr.io/${{ github.actor }}/s6-overlay
           flavor: latest=false
           tags: type=raw,value=${{ matrix.releases.tag_name }}-symlinks
 
@@ -178,8 +178,8 @@ jobs:
           S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
-            docker.io/${{ github.actor }}/s6-overlay-distribution
-            ghcr.io/${{ github.actor }}/s6-overlay-distribution
+            docker.io/${{ github.actor }}/s6-overlay
+            ghcr.io/${{ github.actor }}/s6-overlay
           flavor: latest=false
           tags: type=raw,value=${{ matrix.releases.tag_name }}-syslogd
 

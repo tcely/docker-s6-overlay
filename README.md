@@ -8,15 +8,15 @@ A container image distribution of [s6-overlay](https://github.com/just-container
 
 | Registry                    | Image                                        |
 | --------------------------- | -------------------------------------------- |
-| [Docker Hub]                | socheatsok78/s6-overlay-distribution         |
-| [GitHub Container Registry] | ghcr.io/socheatsok78/s6-overlay-distribution |
+| [Docker Hub]                | socheatsok78/s6-overlay         |
+| [GitHub Container Registry] | ghcr.io/socheatsok78/s6-overlay |
 
 Following platforms for this image are available:
 
 ```bash
-$ docker run --rm mplatform/mquery socheatsok78/s6-overlay-distribution:v3.2.0.0
+$ docker run --rm mplatform/mquery socheatsok78/s6-overlay:v3.2.0.0
 
-# Image: socheatsok78/s6-overlay-distribution:v3.2.0.0
+# Image: socheatsok78/s6-overlay:v3.2.0.0
 #  * Manifest List: Yes (Image type: application/vnd.oci.image.index.v1+json)
 #  * Supported platforms:
 #    - linux/amd64
@@ -34,7 +34,7 @@ Here a simple example of how to use this image:
 
 ```Dockerfile
 ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
+FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
@@ -51,8 +51,8 @@ If you need to include symlinks to the `s6-overlay` binaries, you can add the fo
 
 ```diff
 ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
-+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
+FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
++FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
@@ -63,8 +63,8 @@ Also available for `syslogd` service, use `-syslogd` suffix:
 
 ```diff
 ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION} AS s6-overlay
-+FROM socheatsok78/s6-overlay-distribution:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
+FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
++FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
@@ -77,9 +77,9 @@ The container images are tagged with the version of s6-overlay starting from `v3
 
 Please check the [releases](https://github.com/just-containers/s6-overlay/releases) page for the latest version of s6-overlay.
 
-[Source]: https://github.com/socheatsok78/s6-overlay-distribution
-[Docker Hub]: https://hub.docker.com/r/socheatsok78/s6-overlay-distribution
-[GitHub Container Registry]: https://github.com/socheatsok78/s6-overlay-distribution/pkgs/container/s6-overlay-distribution
+[Source]: https://github.com/socheatsok78/docker-s6-overlay
+[Docker Hub]: https://hub.docker.com/r/socheatsok78/s6-overlay
+[GitHub Container Registry]: https://github.com/socheatsok78/docker-s6-overlay/pkgs/container/s6-overlay
 
 # License
 
