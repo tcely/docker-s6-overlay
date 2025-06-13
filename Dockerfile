@@ -71,6 +71,7 @@ FROM s6-overlay
 # s6-overlay tarballs
 FROM scratch AS tarballs
 ARG S6_VERSION
+# tarballs
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.xz /s6-overlay-aarch64.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-arm.tar.xz /s6-overlay-arm.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-armhf.tar.xz /s6-overlay-armhf.tar.xz
@@ -85,3 +86,18 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz /s6-overlay-symlinks-noarch.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-x86_64.tar.xz /s6-overlay-x86_64.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz /syslogd-overlay-noarch.tar.xz
+# checksums
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.xz.sha256 /s6-overlay-aarch64.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-arm.tar.xz.sha256 /s6-overlay-arm.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-armhf.tar.xz.sha256 /s6-overlay-armhf.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i486.tar.xz.sha256 /s6-overlay-i486.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-i686.tar.xz.sha256 /s6-overlay-i686.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256 /s6-overlay-noarch.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64.tar.xz.sha256 /s6-overlay-powerpc64.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-powerpc64le.tar.xz.sha256 /s6-overlay-powerpc64le.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-riscv64.tar.xz.sha256 /s6-overlay-riscv64.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-s390x.tar.xz.sha256 /s6-overlay-s390x.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256 /s6-overlay-symlinks-arch.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 /s6-overlay-symlinks-noarch.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-x86_64.tar.xz.sha256 /s6-overlay-x86_64.tar.xz.sha256
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 /syslogd-overlay-noarch.tar.xz.sha256
