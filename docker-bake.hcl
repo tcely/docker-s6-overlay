@@ -1,5 +1,4 @@
 
-variable "ALPINE_VERSION" { default = "latest" }
 variable "S6_OVERLAY_VERSION" { default = "v3.2.0.0" }
 
 target "docker-metadata-action" {}
@@ -20,7 +19,6 @@ target "s6-overlay" {
     ]
     target = "s6-overlay"
     args = {
-        ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
     }
     platforms = [
@@ -58,7 +56,6 @@ target "dev" {
         "github-metadata-action",
     ]
     args = {
-        ALPINE_VERSION = "${ALPINE_VERSION}"
         S6_OVERLAY_VERSION = "${S6_OVERLAY_VERSION}"
     }
     tags = [
