@@ -3,10 +3,10 @@ ARG S6_VERSION=v3.2.0.0
 # Tools for building the s6-overlay images
 FROM alpine:latest AS internal
 RUN apk add --no-cache curl
-ARG TARGETARCH
+ARG TARGETARCH TARGETVARIANT
 RUN <<EOT
     {
-        case "${TARGETARCH}" in
+        case "${TARGETARCH}${TARGETVARIANT:+/}${TARGETVARIANT}" in
             (amd64) echo 'x86_64' ;;
             (arm64) echo 'aarch64' ;;
             (riscv64) echo 'riscv64' ;;
