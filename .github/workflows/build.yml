@@ -61,7 +61,7 @@ jobs:
         id: docker-meta
         uses: docker/metadata-action@v5
         env:
-          S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
+          S6_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
             docker.io/${{ github.actor }}/s6-overlay
@@ -118,7 +118,7 @@ jobs:
         id: docker-meta
         uses: docker/metadata-action@v5
         env:
-          S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
+          S6_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
             docker.io/${{ github.actor }}/s6-overlay
@@ -175,7 +175,7 @@ jobs:
         id: docker-meta
         uses: docker/metadata-action@v5
         env:
-          S6_OVERLAY_VERSION: ${{ matrix.releases.tag_name }}
+          S6_VERSION: ${{ matrix.releases.tag_name }}
         with:
           images: |
             docker.io/${{ github.actor }}/s6-overlay

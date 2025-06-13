@@ -35,8 +35,8 @@ Here a simple example of how to use this image:
 ```Dockerfile
 # example/Dockerfile
 
-ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
+ARG S6_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay:${S6_VERSION} AS s6-overlay
 
 # This is your final image
 FROM alpine:latest
@@ -59,9 +59,9 @@ This distribution will includes all default binaries and symlinks.
 If you need to include `symlinks` to the `s6-overlay` binaries, you can add the following to your `Dockerfile`:
 
 ```diff
-ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
-+FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-symlinks AS s6-overlay-symlinks
+ARG S6_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay:${S6_VERSION} AS s6-overlay
++FROM socheatsok78/s6-overlay:${S6_VERSION}-symlinks AS s6-overlay-symlinks
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /
@@ -71,9 +71,9 @@ COPY --link --from=s6-overlay / /
 Also available for `syslogd` service, use `-syslogd` suffix:
 
 ```diff
-ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
-+FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd AS s6-overlay-syslogd
+ARG S6_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay:${S6_VERSION} AS s6-overlay
++FROM socheatsok78/s6-overlay:${S6_VERSION}-syslogd AS s6-overlay-syslogd
 
 FROM alpine:latest
 COPY --link --from=s6-overlay / /

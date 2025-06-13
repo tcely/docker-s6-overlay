@@ -1,5 +1,5 @@
-ARG S6_OVERLAY_VERSION=v3.2.0.0
-FROM socheatsok78/s6-overlay:${S6_OVERLAY_VERSION} AS s6-overlay
+ARG S6_VERSION=v3.2.0.0
+FROM socheatsok78/s6-overlay:${S6_VERSION} AS s6-overlay
 
 # This is your final image
 FROM alpine:latest
