@@ -115,3 +115,6 @@ target "tarballs" {
     platforms = ["local"]
     target = "tarballs"
 }
+target "checksums" {
+    target = "checksums"
+}
