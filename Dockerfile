@@ -1,28 +1,37 @@
 ARG S6_VERSION=v3.2.0.0
+ARG GH_DOWNLOAD='https://github.com/just-containers/s6-overlay/releases/download'
 
 # Tools for building the s6-overlay images
 FROM alpine:latest AS internal
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl cmd:sha256sum
 
 
 # Overlay for s6-overlay-noarch.tar.xz & s6-overlay-${arch}.tar.xz
 FROM internal AS s6-overlay-rootfs
+ARG GH_DOWNLOAD
 ARG S6_VERSION
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256" /tmp/
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-noarch.tar.xz" /tmp/
 RUN <<EOF
     set -e
     S6_ARCH=$(uname -m)
     if [[ "${S6_ARCH}" == "armv7l" ]]; then
         S6_ARCH=arm
     fi
-    mkdir /s6-overlay-rootfs
+    mkdir /s6-overlay-rootfs /verified
     set -x
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz -o /tmp/s6-overlay-noarch.tar.xz
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256 -o /tmp/s6-overlay-noarch.tar.xz.sha256
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz -o /tmp/s6-overlay-${S6_ARCH}.tar.xz
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz.sha256 -o /tmp/s6-overlay-${S6_ARCH}.tar.xz.sha256
-    cd   /tmp && sha256sum -c *.sha256
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-noarch.tar.xz
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz
+    curl -L "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" -o /tmp/s6-overlay-${S6_ARCH}.tar.xz
+    curl -L "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz.sha256" -o /tmp/s6-overlay-${S6_ARCH}.tar.xz.sha256
+    cd   /tmp &&
+    for sumfile in *.sha256
+    do
+        if sha256sum --check --warn --strict "${sumfile}"
+        then
+            mv -v "${sumfile%.sha256}" "${sumfile}" /verified/
+        fi
+    done
+    tar  -C /s6-overlay-rootfs -Jxpf /verified/s6-overlay-noarch.tar.xz
+    tar  -C /s6-overlay-rootfs -Jxpf /verified/s6-overlay-${S6_ARCH}.tar.xz
 EOF
 FROM scratch AS s6-overlay
 COPY --from=s6-overlay-rootfs /s6-overlay-rootfs /
@@ -30,18 +39,26 @@ COPY --from=s6-overlay-rootfs /s6-overlay-rootfs /
 
 # Overlay for s6-overlay-symlinks-noarch.tar.xz & s6-overlay-symlinks-arch.tar.xz
 FROM --platform=${BUILDPLATFORM} internal AS s6-overlay-rootfs-symlinks
+ARG GH_DOWNLOAD
 ARG S6_VERSION
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256" /tmp/
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz" /tmp/
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256" /tmp/
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz" /tmp/
 RUN <<EOF
     set -e
-    mkdir /s6-overlay-rootfs
+    mkdir /s6-overlay-rootfs /verified
     set -x
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz -o /tmp/s6-overlay-symlinks-noarch.tar.xz
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 -o /tmp/s6-overlay-symlinks-noarch.tar.xz.sha256
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz -o /tmp/s6-overlay-symlinks-arch.tar.xz
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256 -o /tmp/s6-overlay-symlinks-arch.tar.xz.sha256
-    cd   /tmp && sha256sum -c *.sha256
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-symlinks-noarch.tar.xz
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/s6-overlay-symlinks-arch.tar.xz
+    cd   /tmp &&
+    for sumfile in *.sha256
+    do
+        if sha256sum --check --warn --strict "${sumfile}"
+        then
+            mv -v "${sumfile%.sha256}" "${sumfile}" /verified/
+        fi
+    done
+    tar  -C /s6-overlay-rootfs -Jxpf /verified/s6-overlay-symlinks-noarch.tar.xz
+    tar  -C /s6-overlay-rootfs -Jxpf /verified/s6-overlay-symlinks-arch.tar.xz
 EOF
 FROM scratch AS s6-overlay-symlinks
 COPY --from=s6-overlay-rootfs-symlinks /s6-overlay-rootfs /
@@ -49,15 +66,24 @@ COPY --from=s6-overlay-rootfs-symlinks /s6-overlay-rootfs /
 
 # Overlay for syslogd-overlay-noarch.tar.xz
 FROM --platform=${BUILDPLATFORM} internal AS s6-overlay-rootfs-syslogd
+ARG GH_DOWNLOAD
 ARG S6_VERSION
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256" /tmp/
+ADD "${GH_DOWNLOAD}/${S6_VERSION}/syslogd-overlay-noarch.tar.xz" /tmp/
+
 RUN <<EOF
     set -e
-    mkdir /s6-overlay-rootfs
+    mkdir /s6-overlay-rootfs /verified
     set -x
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz -o /tmp/syslogd-overlay-noarch.tar.xz
-    curl -L https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/syslogd-overlay-noarch.tar.xz.sha256 -o /tmp/syslogd-overlay-noarch.tar.xz.sha256
-    cd.  /tmp && sha256sum -c *.sha256
-    tar  -C /s6-overlay-rootfs -Jxpf /tmp/syslogd-overlay-noarch.tar.xz
+    cd   /tmp &&
+    for sumfile in *.sha256
+    do
+        if sha256sum --check --warn --strict "${sumfile}"
+        then
+            mv -v "${sumfile%.sha256}" "${sumfile}" /verified/
+        fi
+    done
+    tar  -C /s6-overlay-rootfs -Jxpf /verified/syslogd-overlay-noarch.tar.xz
 EOF
 FROM scratch AS s6-overlay-syslogd
 COPY --from=s6-overlay-rootfs-syslogd /s6-overlay-rootfs /
@@ -70,6 +96,8 @@ FROM s6-overlay
 
 # s6-overlay tarballs
 FROM scratch AS tarballs
+# TODO: use this variable in all the URLs below
+ARG GH_DOWNLOAD
 ARG S6_VERSION
 # tarballs
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-aarch64.tar.xz /s6-overlay-aarch64.tar.xz
