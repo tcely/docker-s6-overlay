@@ -1,4 +1,4 @@
-name: "Manual"
+name: "Manual build"
 
 on:
   workflow_dispatch:
@@ -8,13 +8,15 @@ on:
         required: true
       push:
         description: 'Enable pushing to Registries'
-        default: 'false'
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   build:
+    name: build (${{ inputs.tag_name }})
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,7 +61,7 @@ jobs:
         uses: docker/bake-action@v6
         with:
           targets: s6-overlay
-          push: ${{ inputs.push == 'true' }}
+          push: ${{ inputs.push }}
           files: |
             ./docker-bake.hcl
             cwd://${{ steps.docker-meta.outputs.bake-file }}
@@ -69,6 +71,7 @@ jobs:
             *.cache-to=type=gha,mode=max
 
   symlinks:
+    name: symlinks (${{ inputs.tag_name }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -113,7 +116,7 @@ jobs:
         uses: docker/bake-action@v6
         with:
           targets: s6-overlay-symlinks
-          push: ${{ inputs.push == 'true' }}
+          push: ${{ inputs.push }}
           files: |
             ./docker-bake.hcl
             cwd://${{ steps.docker-meta.outputs.bake-file }}
@@ -123,6 +126,7 @@ jobs:
             *.cache-to=type=gha,mode=max
 
   syslogd:
+    name: syslogd (${{ inputs.tag_name }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -167,7 +171,7 @@ jobs:
         uses: docker/bake-action@v6
         with:
           targets: s6-overlay-syslogd
-          push: ${{ inputs.push == 'true' }}
+          push: ${{ inputs.push }}
           files: |
             ./docker-bake.hcl
             cwd://${{ steps.docker-meta.outputs.bake-file }}
