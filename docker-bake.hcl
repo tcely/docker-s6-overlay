@@ -62,3 +62,35 @@ target "dev" {
         "socheatsok78/s6-overlay-distribution:dev"
     ]
 }
+
+# The "release" group is used to build locally in the event that CI/CD is not available.
+# Or in most cases, it got rate-limited by Docker Hub.
+group "release" {
+    targets = [
+        "release-s6-overlay",
+        "release-s6-overlay-symlinks",
+        "release-s6-overlay-syslogd",
+    ]
+}
+
+target "release-s6-overlay" {
+    inherits = [ "s6-overlay" ]
+    tags = [ 
+        "docker.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}",
+        "ghcr.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}",
+    ]
+}
+target "release-s6-overlay-symlinks" {
+    inherits = [ "s6-overlay-symlinks" ]
+    tags = [ 
+        "docker.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-symlinks",
+        "ghcr.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-symlinks",
+    ]
+}
+target "release-s6-overlay-syslogd" {
+    inherits = [ "s6-overlay-syslogd" ]
+    tags = [ 
+        "docker.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd",
+        "ghcr.io/socheatsok78/s6-overlay:${S6_OVERLAY_VERSION}-syslogd",
+    ]
+}
