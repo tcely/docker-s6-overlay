@@ -17,9 +17,6 @@ RUN <<EOT
             (*) echo 1>&2 'Unsupported architecture!' ; exit 1 ;;
         esac
     } >| /S6_ARCH
-    if [[ "$(uname -m)" == "armv7l" ]]; then
-        echo 'arm' >| /S6_ARCH
-    fi
 EOT
 
 
