@@ -6,14 +6,16 @@ RUN apk add --no-cache curl
 ARG TARGETARCH TARGETVARIANT
 RUN <<EOT
     {
+    # See:
+    # https://github.com/just-containers/s6-overlay/blob/d6f37bb2052cfc5705154315419dcacb3975f11e/README.md?plain=1#L1023
         case "${TARGETARCH}${TARGETVARIANT:+/}${TARGETVARIANT}" in
             (amd64) echo 'x86_64' ;;
             (arm64) echo 'aarch64' ;;
             (riscv64) echo 'riscv64' ;;
             (s390x) echo 's390x' ;;
             (386) echo 'i686' ;;
-            (arm/v7) echo 'armhf' ;;
-            (arm/v6) echo 'arm' ;;
+            (arm/v6) echo 'armhf' ;;
+            (arm/v7) echo 'arm' ;;
             (*) echo 1>&2 'Unsupported architecture!' ; exit 1 ;;
         esac
     } >| /S6_ARCH
