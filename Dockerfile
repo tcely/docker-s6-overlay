@@ -11,7 +11,7 @@ RUN <<EOT
             (arm64) echo 'aarch64' ;;
             (riscv64) echo 'riscv64' ;;
             (s390x) echo 's390x' ;;
-            (386) echo 'i486' ;;
+            (386) echo 'i686' ;;
             (arm/v7) echo 'armhf' ;;
             (arm/v6) echo 'arm' ;;
             (*) echo 1>&2 'Unsupported architecture!' ; exit 1 ;;
