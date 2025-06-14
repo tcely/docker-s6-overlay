@@ -84,6 +84,7 @@ jobs:
             cwd://${{ steps.docker-meta.outputs.bake-file }}
             cwd://${{ steps.github-meta.outputs.bake-file }}
           set: |
+            *.args.S6_VERSION=${{ inputs.tag_name }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
 
@@ -156,6 +157,7 @@ jobs:
             cwd://${{ steps.docker-meta.outputs.bake-file }}
             cwd://${{ steps.github-meta.outputs.bake-file }}
           set: |
+            *.args.S6_VERSION=${{ inputs.tag_name }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
 
@@ -228,5 +230,6 @@ jobs:
             cwd://${{ steps.docker-meta.outputs.bake-file }}
             cwd://${{ steps.github-meta.outputs.bake-file }}
           set: |
+            *.args.S6_VERSION=${{ inputs.tag_name }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
