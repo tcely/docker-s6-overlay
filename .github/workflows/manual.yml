@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   base:
+    name: base (${{ inputs.tag_name }})
     uses: ./.github/workflows/docker-build-release.yml
     permissions:
       contents: read
@@ -31,6 +32,7 @@ jobs:
     secrets: inherit
 
   symlinks:
+    name: symlink (${{ inputs.tag_name }})
     uses: ./.github/workflows/docker-build-release.yml
     permissions:
       contents: read
@@ -46,6 +48,7 @@ jobs:
     secrets: inherit
 
   syslogd:
+    name: syslogd (${{ inputs.tag_name }})
     uses: ./.github/workflows/docker-build-release.yml
     permissions:
       contents: read
