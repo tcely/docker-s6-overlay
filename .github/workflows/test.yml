@@ -27,7 +27,7 @@ jobs:
     outputs:
       matrix: ${{ steps.releases.outputs.matrix }}
 
-  build:
+  base:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
