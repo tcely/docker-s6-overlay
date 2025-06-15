@@ -1,6 +1,7 @@
 ARG S6_REPO=just-containers/s6-overlay
 ARG S6_VERSION=v3.2.0.0
 ARG S6_DOWNLOAD_URL=https://github.com/${S6_REPO}/releases/download/${S6_VERSION}
+ARG ALPINE_VERSION=3.22.0
 
 # Download s6-overlay tarballs for various architectures
 # $ docker buildx bake download --no-cache
@@ -32,7 +33,7 @@ ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-arch.tar.xz.sha256       /s6-overlay-
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-noarch.tar.xz.sha256     /s6-overlay-symlinks-noarch.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/syslogd-overlay-noarch.tar.xz.sha256         /syslogd-overlay-noarch.tar.xz.sha256
 
-FROM --platform=${BUILDPLATFORM} alpine:latest AS verify
+FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS verify
 WORKDIR /tmp/output
 RUN --mount=type=bind,source=./output,target=/tmp/output sha256sum -cw *.sha256
 
