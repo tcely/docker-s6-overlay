@@ -6,11 +6,17 @@ on:
       - develop
       - next
       - trunk
+    paths:
+      - "Dockerfile"
+      - "docker-bake.hcl"
   pull_request:
     branches:
       - develop
       - next
       - trunk
+    paths:
+      - "Dockerfile"
+      - "docker-bake.hcl"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
