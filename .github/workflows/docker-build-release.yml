@@ -33,9 +33,6 @@ on:
       DOCKERHUB_TOKEN:
         description: 'Docker Hub token for authentication.'
         required: true
-      GITHUB_TOKEN:
-        description: 'GitHub token for authentication.'
-        required: true
 
 jobs:
   build:
