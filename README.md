@@ -90,6 +90,43 @@ Please check the [releases](https://github.com/just-containers/s6-overlay/releas
 [Docker Hub]: https://hub.docker.com/r/socheatsok78/s6-overlay
 [GitHub Container Registry]: https://github.com/socheatsok78/docker-s6-overlay/pkgs/container/s6-overlay
 
+## Development
+
+Before building the image, ensure you have the following tools installed:
+- [Docker](https://www.docker.com/)
+- [Buildx](https://docs.docker.com/buildx/working-with-buildx/)
+- [tonistiigi/binfmt](https://github.com/tonistiigi/binfmt) - Cross-platform emulator collection distributed with Docker images.
+
+Run the following command to download and verify the `s6-overlay` tarballs:
+
+```bash
+$ docker buildx bake download --no-cache
+$ docker buildx bake verify --no-cache
+```
+
+The `download` target will download the `s6-overlay` tarballs from the official repository, and the `verify` target will check the integrity of the downloaded files. The downloaded files will be stored in the `output` directory.
+
+Building the image for all platforms can be done with the following command:
+
+```bash
+# This will build the image for all platforms defined in the `docker-bake.hcl` file.
+# Add `--push` to push the built images to the registry. (You need to be logged in to the registry first.)
+# Add `--no-cache` to skip the cache and force a rebuild.
+$ docker buildx bake release
+```
+
+If you want to build for the host platform only, you can use the `local` target:
+
+```bash
+# The `local` target will build the image for the host platform only.
+# Add `--load` to load the built image into the local Docker daemon.
+# Add `--no-cache` to skip the cache and force a rebuild.s
+$ docker buildx bake local --load
+
+# If you want to build for a specific platform, you can use the `--set` flag.
+$ docker buildx bake local --load --set="*.platform=linux/386"
+```
+
 # License
 
 Licensed under the [MIT License](./LICENSE).
