@@ -13,169 +13,40 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build:
-    name: build (${{ inputs.tag_name }})
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate Docker metadata
-        id: docker-meta
-        uses: docker/metadata-action@v5
-        env:
-          S6_VERSION: ${{ inputs.tag_name }}
-        with:
-          images: |
-            docker.io/${{ github.actor }}/s6-overlay
-            ghcr.io/${{ github.actor }}/s6-overlay
-          flavor: latest=false
-          tags: type=raw,value=${{ inputs.tag_name }}
-
-      - name: Generate GitHub metadata
-        id: github-meta
-        uses: dockerbakery/github-metadata-action@v2
-
-      - name: Build and push
-        uses: docker/bake-action@v6
-        with:
-          targets: s6-overlay
-          push: ${{ inputs.push }}
-          files: |
-            ./docker-bake.hcl
-            cwd://${{ steps.docker-meta.outputs.bake-file }}
-            cwd://${{ steps.github-meta.outputs.bake-file }}
-          set: |
-            *.cache-from=type=gha
-            *.cache-to=type=gha,mode=max
+  base:
+    uses: ./.github/workflows/docker-build-release.yml
+    with:
+      targets: s6-overlay
+      push: ${{ github.event_name != 'pull_request' }}
+      images: |
+        docker.io/${{ github.actor }}/s6-overlay
+        ghcr.io/${{ github.actor }}/s6-overlay
+      tag_name: ${{ inputs.tag_name }}
+    secrets: inherit
 
   symlinks:
-    name: symlinks (${{ inputs.tag_name }})
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate Docker metadata
-        id: docker-meta
-        uses: docker/metadata-action@v5
-        env:
-          S6_VERSION: ${{ inputs.tag_name }}
-        with:
-          images: |
-            docker.io/${{ github.actor }}/s6-overlay
-            ghcr.io/${{ github.actor }}/s6-overlay
-          flavor: latest=false
-          tags: type=raw,value=${{ inputs.tag_name }}-symlinks
-
-      - name: Generate GitHub metadata
-        id: github-meta
-        uses: dockerbakery/github-metadata-action@v2
-
-      - name: Build and push
-        uses: docker/bake-action@v6
-        with:
-          targets: s6-overlay-symlinks
-          push: ${{ inputs.push }}
-          files: |
-            ./docker-bake.hcl
-            cwd://${{ steps.docker-meta.outputs.bake-file }}
-            cwd://${{ steps.github-meta.outputs.bake-file }}
-          set: |
-            *.cache-from=type=gha
-            *.cache-to=type=gha,mode=max
+    uses: ./.github/workflows/docker-build-release.yml
+    with:
+      targets: s6-overlay-symlinks
+      push: ${{ github.event_name != 'pull_request' }}
+      images: |
+        docker.io/${{ github.actor }}/s6-overlay
+        ghcr.io/${{ github.actor }}/s6-overlay
+      tag_name: ${{ inputs.tag_name }}
+      tag_suffix: symlinks
+    secrets: inherit
 
   syslogd:
-    name: syslogd (${{ inputs.tag_name }})
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate Docker metadata
-        id: docker-meta
-        uses: docker/metadata-action@v5
-        env:
-          S6_VERSION: ${{ inputs.tag_name }}
-        with:
-          images: |
-            docker.io/${{ github.actor }}/s6-overlay
-            ghcr.io/${{ github.actor }}/s6-overlay
-          flavor: latest=false
-          tags: type=raw,value=${{ inputs.tag_name }}-syslogd
-
-      - name: Generate GitHub metadata
-        id: github-meta
-        uses: dockerbakery/github-metadata-action@v2
-
-      - name: Build and push
-        uses: docker/bake-action@v6
-        with:
-          targets: s6-overlay-syslogd
-          push: ${{ inputs.push }}
-          files: |
-            ./docker-bake.hcl
-            cwd://${{ steps.docker-meta.outputs.bake-file }}
-            cwd://${{ steps.github-meta.outputs.bake-file }}
-          set: |
-            *.cache-from=type=gha
-            *.cache-to=type=gha,mode=max
+    uses: ./.github/workflows/docker-build-release.yml
+    with:
+      targets: s6-overlay-syslogd
+      push: ${{ github.event_name != 'pull_request' }}
+      images: |
+        docker.io/${{ github.actor }}/s6-overlay
+        ghcr.io/${{ github.actor }}/s6-overlay
+      tag_name: ${{ inputs.tag_name }}
+      tag_suffix: syslogd
+    secrets: inherit
