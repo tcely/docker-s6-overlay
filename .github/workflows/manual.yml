@@ -18,6 +18,9 @@ concurrency:
 jobs:
   base:
     uses: ./.github/workflows/docker-build-release.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       targets: s6-overlay
       push: ${{ github.event_name != 'pull_request' }}
@@ -29,6 +32,9 @@ jobs:
 
   symlinks:
     uses: ./.github/workflows/docker-build-release.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       targets: s6-overlay-symlinks
       push: ${{ github.event_name != 'pull_request' }}
@@ -41,6 +47,9 @@ jobs:
 
   syslogd:
     uses: ./.github/workflows/docker-build-release.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       targets: s6-overlay-syslogd
       push: ${{ github.event_name != 'pull_request' }}
