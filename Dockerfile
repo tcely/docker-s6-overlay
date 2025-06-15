@@ -6,36 +6,30 @@ ARG S6_DOWNLOAD_URL=https://github.com/${S6_REPO}/releases/download/${S6_VERSION
 # $ docker buildx bake download --no-cache
 FROM scratch AS download
 ARG S6_DOWNLOAD_URL
+ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz                     /s6-overlay-noarch.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-aarch64.tar.xz                    /s6-overlay-aarch64.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-arm.tar.xz                        /s6-overlay-arm.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-armhf.tar.xz                      /s6-overlay-armhf.tar.xz
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-i486.tar.xz                       /s6-overlay-i486.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-i686.tar.xz                       /s6-overlay-i686.tar.xz
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz                     /s6-overlay-noarch.tar.xz
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-powerpc64.tar.xz                  /s6-overlay-powerpc64.tar.xz
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-powerpc64le.tar.xz                /s6-overlay-powerpc64le.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-riscv64.tar.xz                    /s6-overlay-riscv64.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-s390x.tar.xz                      /s6-overlay-s390x.tar.xz
+ADD ${S6_DOWNLOAD_URL}/s6-overlay-x86_64.tar.xz                     /s6-overlay-x86_64.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-arch.tar.xz              /s6-overlay-symlinks-arch.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-noarch.tar.xz            /s6-overlay-symlinks-noarch.tar.xz
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-x86_64.tar.xz                     /s6-overlay-x86_64.tar.xz
 ADD ${S6_DOWNLOAD_URL}/syslogd-overlay-noarch.tar.xz                /syslogd-overlay-noarch.tar.xz
 
 # Verify the downloaded tarballs
 # $ docker buildx bake verify --no-cache
+ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz.sha256              /s6-overlay-noarch.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-aarch64.tar.xz.sha256             /s6-overlay-aarch64.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-arm.tar.xz.sha256                 /s6-overlay-arm.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-armhf.tar.xz.sha256               /s6-overlay-armhf.tar.xz.sha256
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-i486.tar.xz.sha256                /s6-overlay-i486.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-i686.tar.xz.sha256                /s6-overlay-i686.tar.xz.sha256
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz.sha256              /s6-overlay-noarch.tar.xz.sha256
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-powerpc64.tar.xz.sha256           /s6-overlay-powerpc64.tar.xz.sha256
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-powerpc64le.tar.xz.sha256         /s6-overlay-powerpc64le.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-riscv64.tar.xz.sha256             /s6-overlay-riscv64.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-s390x.tar.xz.sha256               /s6-overlay-s390x.tar.xz.sha256
+ADD ${S6_DOWNLOAD_URL}/s6-overlay-x86_64.tar.xz.sha256              /s6-overlay-x86_64.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-arch.tar.xz.sha256       /s6-overlay-symlinks-arch.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-noarch.tar.xz.sha256     /s6-overlay-symlinks-noarch.tar.xz.sha256
-ADD ${S6_DOWNLOAD_URL}/s6-overlay-x86_64.tar.xz.sha256              /s6-overlay-x86_64.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/syslogd-overlay-noarch.tar.xz.sha256         /syslogd-overlay-noarch.tar.xz.sha256
 
 FROM --platform=${BUILDPLATFORM} alpine:latest AS verify
