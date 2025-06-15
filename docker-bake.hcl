@@ -107,15 +107,15 @@ target "local-s6-overlay" {
     args = {
         S6_VERSION = "${S6_VERSION}"
     }
-    tags = [ "socheatsok78/s6-overlay:${S6_VERSION}"]
+    tags = [ "localhost:5000/s6-overlay:${S6_VERSION}"]
 }
 target "local-s6-overlay-symlinks" {
     inherits = [ "local-s6-overlay" ]
     target = "s6-overlay-symlinks"
-    tags = [ "socheatsok78/s6-overlay:${S6_VERSION}-symlinks"]
+    tags = [ "localhost:5000/s6-overlay:${S6_VERSION}-symlinks"]
 }
 target "local-s6-overlay-syslogd" {
     inherits = [ "local-s6-overlay" ]
     target = "s6-overlay-syslogd"
-    tags = [ "socheatsok78/s6-overlay:${S6_VERSION}-syslogd"]
+    tags = [ "localhost:5000/s6-overlay:${S6_VERSION}-syslogd"]
 }

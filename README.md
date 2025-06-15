@@ -106,16 +106,7 @@ $ docker buildx bake verify --no-cache
 
 The `download` target will download the `s6-overlay` tarballs from the official repository, and the `verify` target will check the integrity of the downloaded files. The downloaded files will be stored in the `output` directory.
 
-Building the image for all platforms can be done with the following command:
-
-```bash
-# This will build the image for all platforms defined in the `docker-bake.hcl` file.
-# Add `--push` to push the built images to the registry. (You need to be logged in to the registry first.)
-# Add `--no-cache` to skip the cache and force a rebuild.
-$ docker buildx bake release
-```
-
-If you want to build for the host platform only, you can use the `local` target:
+Build for the host platform, you can use the `local` target:
 
 ```bash
 # The `local` target will build the image for the host platform only.
@@ -123,8 +114,21 @@ If you want to build for the host platform only, you can use the `local` target:
 # Add `--no-cache` to skip the cache and force a rebuild.s
 $ docker buildx bake local --load
 
-# If you want to build for a specific platform, you can use the `--set` flag.
+# Once the build is complete, the following tag will be created:
+# - localhost:5000/s6-overlay:v3.2.0.0
+# - localhost:5000/s6-overlay:v3.2.0.0-symlinks
+# - localhost:5000/s6-overlay:v3.2.0.0-symlinks-syslogd
+```
+
+If you want to build for a specific platform, you can use the `--set` flag.
+```bash
 $ docker buildx bake local --load --set="*.platform=linux/386"
+```
+
+Once you have built the image, you can use tool such as [dive](https://github.com/wagoodman/dive) to inspect the image and verify that it contains the expected files.
+
+```bash
+$ dive localhost:5000/s6-overlay:v3.2.0.0
 ```
 
 # License
