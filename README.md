@@ -101,10 +101,9 @@ Run the following command to download and verify the `s6-overlay` tarballs:
 
 ```bash
 $ docker buildx bake download --no-cache
-$ docker buildx bake verify --no-cache
 ```
 
-The `download` target will download the `s6-overlay` tarballs from the official repository, and the `verify` target will check the integrity of the downloaded files. The downloaded files will be stored in the `output` directory.
+The `download` target will download the `s6-overlay` tarballs from the official repository, and verify the integrity of the downloaded files. The downloaded files will be stored in the `output` directory.
 
 Build for the host platform, you can use the `local` target:
 

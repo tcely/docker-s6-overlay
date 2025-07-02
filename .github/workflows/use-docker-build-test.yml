@@ -62,7 +62,6 @@ jobs:
       - name: Download and verify s6-overlay tarballs
         run: |
           docker buildx bake download --no-cache
-          docker buildx bake verify --no-cache
 
       - name: Build and push
         uses: docker/bake-action@v6

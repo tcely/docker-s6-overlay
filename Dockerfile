@@ -3,9 +3,12 @@ ARG S6_VERSION=v3.2.0.0
 ARG S6_DOWNLOAD_URL=https://github.com/${S6_REPO}/releases/download/${S6_VERSION}
 ARG ALPINE_VERSION=3.22.0
 
-# Download s6-overlay tarballs for various architectures
+# Download s6-overlay tarballs and verify their checksums.
 # $ docker buildx bake download --no-cache
-FROM scratch AS download
+# 
+# Or maunally run each target:
+# $ docker buildx bake tarballs --no-cache
+FROM scratch AS tarballs
 ARG S6_DOWNLOAD_URL
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz                     /s6-overlay-noarch.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-aarch64.tar.xz                    /s6-overlay-aarch64.tar.xz
@@ -18,8 +21,7 @@ ADD ${S6_DOWNLOAD_URL}/s6-overlay-x86_64.tar.xz                     /s6-overlay-
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-arch.tar.xz              /s6-overlay-symlinks-arch.tar.xz
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-symlinks-noarch.tar.xz            /s6-overlay-symlinks-noarch.tar.xz
 ADD ${S6_DOWNLOAD_URL}/syslogd-overlay-noarch.tar.xz                /syslogd-overlay-noarch.tar.xz
-
-# Verify the downloaded tarballs
+# 
 # $ docker buildx bake verify --no-cache
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-noarch.tar.xz.sha256              /s6-overlay-noarch.tar.xz.sha256
 ADD ${S6_DOWNLOAD_URL}/s6-overlay-aarch64.tar.xz.sha256             /s6-overlay-aarch64.tar.xz.sha256
@@ -35,7 +37,7 @@ ADD ${S6_DOWNLOAD_URL}/syslogd-overlay-noarch.tar.xz.sha256         /syslogd-ove
 
 FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS verify
 WORKDIR /tmp/output
-RUN --mount=type=bind,source=./output,target=/tmp/output sha256sum -cw *.sha256
+RUN --mount=type=bind,from=tarballs,source=/,target=/tmp/output sha256sum -cw *.sha256
 
 # Specify the target architecture and variant for s6-overlay
 

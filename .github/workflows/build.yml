@@ -38,7 +38,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write
@@ -55,7 +55,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write
@@ -73,7 +73,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write

@@ -18,7 +18,7 @@ concurrency:
 jobs:
   base:
     name: base (${{ inputs.tag_name }})
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write
@@ -33,7 +33,7 @@ jobs:
 
   symlinks:
     name: symlink (${{ inputs.tag_name }})
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write
@@ -49,7 +49,7 @@ jobs:
 
   syslogd:
     name: syslogd (${{ inputs.tag_name }})
-    uses: ./.github/workflows/docker-build-release.yml
+    uses: ./.github/workflows/use-docker-build-release.yml
     permissions:
       contents: read
       packages: write

@@ -6,10 +6,16 @@ target "docker-metadata-action" {}
 target "github-metadata-action" {}
 
 # Download s6-overlay tarballs for local testing.
-target "download" {
+group "download" {
+    targets = [
+        "tarballs",
+        "verify",
+    ]
+}
+target "tarballs" {
     output = ["./output"]
     platforms = ["local"]
-    target = "download"
+    target = "tarballs"
 }
 target "verify" {
     target = "verify"

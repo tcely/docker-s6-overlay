@@ -39,7 +39,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-test.yml
+    uses: ./.github/workflows/use-docker-build-test.yml
     with:
       targets: s6-overlay
       push: false
@@ -52,7 +52,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-test.yml
+    uses: ./.github/workflows/use-docker-build-test.yml
     with:
       targets: s6-overlay-symlinks
       push: false
@@ -66,7 +66,7 @@ jobs:
     needs: generate
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/docker-build-test.yml
+    uses: ./.github/workflows/use-docker-build-test.yml
     with:
       targets: s6-overlay-syslogd
       push: false
