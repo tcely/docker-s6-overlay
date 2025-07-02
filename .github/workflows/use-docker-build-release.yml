@@ -34,6 +34,9 @@ on:
         description: 'Docker Hub token for authentication.'
         required: true
 
+env:
+  S6_VERSION: ${{ inputs.tag_name }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -65,8 +68,6 @@ jobs:
       - name: Generate Docker metadata
         id: docker-meta
         uses: docker/metadata-action@v5
-        env:
-          S6_VERSION: ${{ inputs.tag_name }}
         with:
           images: ${{ inputs.images}}
           flavor: latest=false

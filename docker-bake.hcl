@@ -13,11 +13,17 @@ group "download" {
     ]
 }
 target "tarballs" {
+    args = {
+        S6_VERSION = "${S6_VERSION}"
+    }
     output = ["./output"]
     platforms = ["local"]
     target = "tarballs"
 }
 target "verify" {
+    args = {
+        S6_VERSION = "${S6_VERSION}"
+    }
     target = "verify"
 }
 
@@ -35,9 +41,6 @@ target "s6-overlay" {
         "github-metadata-action",
     ]
     target = "s6-overlay"
-    args = {
-        S6_VERSION = "${S6_VERSION}"
-    }
     platforms = [
         "linux/amd64",
         "linux/arm64",

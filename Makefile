@@ -1,3 +1,6 @@
+.EXPORT_ALL_VARIABLES:
+S6_VERSION := v3.2.0.0
+
 it: download
 
 .PHONY: dockerhub
