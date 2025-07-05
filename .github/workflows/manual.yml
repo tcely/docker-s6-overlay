@@ -26,7 +26,6 @@ jobs:
       targets: s6-overlay
       push: ${{ github.event_name != 'pull_request' }}
       images: |
-        docker.io/${{ github.actor }}/s6-overlay
         ghcr.io/${{ github.actor }}/s6-overlay
       tag_name: ${{ inputs.tag_name }}
     secrets: inherit
@@ -41,7 +40,6 @@ jobs:
       targets: s6-overlay-symlinks
       push: ${{ github.event_name != 'pull_request' }}
       images: |
-        docker.io/${{ github.actor }}/s6-overlay
         ghcr.io/${{ github.actor }}/s6-overlay
       tag_name: ${{ inputs.tag_name }}
       tag_suffix: symlinks
@@ -57,7 +55,6 @@ jobs:
       targets: s6-overlay-syslogd
       push: ${{ github.event_name != 'pull_request' }}
       images: |
-        docker.io/${{ github.actor }}/s6-overlay
         ghcr.io/${{ github.actor }}/s6-overlay
       tag_name: ${{ inputs.tag_name }}
       tag_suffix: syslogd
